@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { useStateContext } from '../context/StateContext';
 import { urlFor } from '../lib/client';
 import getStripe from '../lib/getStripe';
+import { Seo } from '../components';
 
 const Cart = () => {
   const cartRef = useRef();
@@ -32,6 +33,7 @@ const Cart = () => {
 
   return (
     <div className='cart-wrapper' ref={cartRef}>
+      <Seo title='Your Cart' description='Review the items in your Dine Market shopping bag and check out securely.' noindex />
       <h2>Shopping Cart</h2>
       <div className='cart-container'>
         <div className='cart-items'>
@@ -45,7 +47,7 @@ const Cart = () => {
           {cartItems.length >= 1 && cartItems.map((item) => (
             <div key={item._id} className='item-card'>
               <div className='item-image'>
-                <img src={urlFor(item?.image[0])} alt='img' />
+                <img src={urlFor(item?.image[0])} alt={item?.name || 'Cart item'} loading='lazy' decoding='async' />
               </div>
               <div className='item-details'>
                 <div className='name-and-remove'>

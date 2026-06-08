@@ -1,6 +1,6 @@
 import React from 'react'
 import {client} from '../lib/client'
-import { HeroBanner, EventsBanner, Newsletter, FeaturesBanner, Product } from '../components'
+import { HeroBanner, EventsBanner, Newsletter, FeaturesBanner, Product, Seo } from '../components'
 import { Navigation, A11y, Lazy } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -11,6 +11,11 @@ import 'swiper/css/navigation';
 const Home = ({products}) => {
   return (
     <>
+      <Seo
+        title='Wardrobe Staples, Reimagined'
+        description='Dine Market is a modern clothing store for Female, Male, and Kids — premium everyday staples with secure Stripe checkout. New season, up to 40% off.'
+        path='/'
+      />
       <HeroBanner />
       <EventsBanner />
 

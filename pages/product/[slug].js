@@ -3,9 +3,10 @@ import { client, urlFor } from '../../lib/client'
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
 import {CgShoppingCart} from 'react-icons/cg'
 import { useStateContext } from '../../context/StateContext';
+import { Seo } from '../../components';
 
 const ProductDetails = ({products, product}) => {
-    const { image, name, details, price, tags, care } = product;
+    const { image, name, details, price, tags, care, slug } = product;
     const [index, setIndex] = useState(0);
     const {decQty, incQty, qty, onAdd} = useStateContext();
 
@@ -15,21 +16,35 @@ const ProductDetails = ({products, product}) => {
         .map((entry) => entry?.children?.[0]?.text)
         .filter(Boolean);
 
+    const productDescription =
+        details?.[0]?.children?.[0]?.text ||
+        `Buy ${name} at Dine Market — premium everyday clothing with secure Stripe checkout.`;
+
     return (
         <div className='products'>
+            <Seo
+                title={name}
+                description={productDescription}
+                image={image && image[0] ? urlFor(image[0]).width(1200).height(630).url() : undefined}
+                path={slug?.current ? `/product/${slug.current}` : undefined}
+                type='product'
+            />
             <div className='product-detail-container'>
                 <div className='product-images'>
                     <div className='small-images-container'>
                         {image?.map((item, ind) => (
-                            <img 
+                            <img
                             key={ind}
-                            src={urlFor(item)} 
-                            className='small-image' 
+                            src={urlFor(item)}
+                            alt={`${name} thumbnail ${ind + 1}`}
+                            loading='lazy'
+                            decoding='async'
+                            className='small-image'
                             onMouseEnter={() => setIndex(ind)} />
                         ))}
                     </div>
                     <div className='big-image-container'>
-                        <img src={urlFor(image && image[index])} />
+                        <img src={urlFor(image && image[index])} alt={name} decoding='async' />
                     </div>
                 </div>
                 <div className='product-details'>
