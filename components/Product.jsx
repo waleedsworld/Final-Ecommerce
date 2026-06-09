@@ -7,7 +7,7 @@ const Product = ({product: {image, name, slug, price}}) => {
     <div>
       <Link href={`/product/${slug.current}`}>
         <div className='product-card'>
-          <img src={urlFor(image && image[0])} width={380} height={400} className='product-image' />
+          <img src={urlFor(image && image[0])} alt={name} width={380} height={400} loading='lazy' decoding='async' className='product-image' />
           <p className='product-name'>{name}</p>
           <p className='product-price'>${price}</p>
         </div>
