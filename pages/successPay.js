@@ -18,19 +18,19 @@ const successPay = () => {
 
     return (
         <div className='success'>
-            <p className='icon'>
+            <p className='icon' aria-hidden='true'>
                 <BsBagCheckFill size={80} />
             </p>
             <h1>Thank you for your order!</h1>
             <p>Check your email inbox for the receipt</p>
             <p className='description'>
-                If you have any questions, please email 
+                If you have any questions, please email
                 <a href="mailto:dinemarket@example.com">
                     dinemarket@example.com
                 </a>
             </p>
             <Link href="/">
-                <button className='btn' type="button" width="300px">
+                <button className='btn' type="button">
                     Continue Shopping
                 </button>
             </Link>

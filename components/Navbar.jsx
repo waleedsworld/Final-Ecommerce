@@ -27,10 +27,11 @@ const Navbar = ({Searchproducts}) => {
       </ul>
 
         <div className='search-bar'>
-          <CiSearch />
-          <input 
-            type='text' 
-            placeholder='What you looking for'/>
+          <CiSearch aria-hidden='true' />
+          <input
+            type='text'
+            aria-label='Search products'
+            placeholder='What are you looking for'/>
         </div>
         {/* onChange={(event) => {
               setSearchTerm(event.target.value);
@@ -38,26 +39,41 @@ const Navbar = ({Searchproducts}) => {
 
       {showCart ?
       <Link href='/cart'>
-        <button className='cart' onClick={() => setShowCart(false)}>   
-          <CgShoppingCart size={22} />
-          <span className='cart-item-qty'>{totalQty}</span> 
+        <button className='cart' aria-label={`View cart, ${totalQty} items`} onClick={() => setShowCart(false)}>
+          <CgShoppingCart size={22} aria-hidden='true' />
+          <span className='cart-item-qty'>{totalQty}</span>
         </button>
-      </Link> 
-      : 
-      <button className='cart' onClick={() => setShowCart(true)}> 
-        <CgShoppingCart size={22} />
+      </Link>
+      :
+      <button className='cart' aria-label={`View cart, ${totalQty} items`} onClick={() => setShowCart(true)}>
+        <CgShoppingCart size={22} aria-hidden='true' />
         <span className='cart-item-qty'>{totalQty}</span>
-      </button> 
+      </button>
       }
 
       <div className='navbar-smallscreen'>
-        <RiMenu3Line color='black' fontSize={27} onClick={() => setToggleMenu(true)} />
+        <button
+          type='button'
+          className='menu-toggle'
+          aria-label='Open menu'
+          aria-expanded={toggleMenu}
+          onClick={() => setToggleMenu(true)}
+        >
+          <RiMenu3Line color='black' fontSize={27} aria-hidden='true' />
+        </button>
         {toggleMenu && (
-          <div className='navbar-smallscreen_overlay'>
+          <div className='navbar-smallscreen_overlay' role='dialog' aria-modal='true' aria-label='Site menu'>
             <Link href='/'>
               <Image className='logo-small' src={logo} width={140} height={25} alt='logo' />
             </Link>
-            <RiCloseLine  color='black' fontSize={27} className='close_icon' onClick={() => setToggleMenu(false)} />
+            <button
+              type='button'
+              className='close_icon'
+              aria-label='Close menu'
+              onClick={() => setToggleMenu(false)}
+            >
+              <RiCloseLine fontSize={27} aria-hidden='true' />
+            </button>
             <ul className='navbar-smallscreen_links'>
               <Link href='/cart'>
                   <button className='cart-small-screen' onClick={() => setShowCart(false)}>   
