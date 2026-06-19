@@ -4,6 +4,10 @@ A modern, full-stack clothing storefront built with **Next.js**, a **Sanity** he
 
 > Wardrobe staples, reimagined. New season, up to 40% off. 😉
 
+![Dine Market storefront tour — home, catalogue, and product detail](assets/demo.gif)
+
+_A quick tour of the running storefront: the hero, the live product catalogue, and a product detail page. See [`assets/`](assets/) for the full-resolution stills._
+
 ![Dine Market home page](docs/media/home-desktop.png)
 
 ---
