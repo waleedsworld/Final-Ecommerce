@@ -4,6 +4,7 @@ import {CiSearch} from 'react-icons/ci'
 import {CgShoppingCart} from 'react-icons/cg'
 import logo from '../src/assets/logo/Logo.png'
 import Link from 'next/link'
+import { useRouter } from 'next/router';
 import {RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 import { useStateContext } from '../context/StateContext';
 import config from '../lib/config';
@@ -11,7 +12,17 @@ import config from '../lib/config';
 const Navbar = ({Searchproducts}) => {
   const {showCart, setShowCart, totalQty} = useStateContext();
   const [toggleMenu, setToggleMenu] = useState(false);
-  // const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
+
+  // Submit the search box to the /search results page. Empty queries are
+  // ignored so we never navigate to an empty result set.
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const term = searchTerm.trim();
+    if (!term) return;
+    router.push(`/search?q=${encodeURIComponent(term)}`);
+  };
 
   return (
     <nav>
@@ -26,15 +37,17 @@ const Navbar = ({Searchproducts}) => {
         ))}
       </ul>
 
-        <div className='search-bar'>
-          <CiSearch />
-          <input 
-            type='text' 
-            placeholder='What you looking for'/>
-        </div>
-        {/* onChange={(event) => {
-              setSearchTerm(event.target.value);
-          }} */}
+        <form className='search-bar' onSubmit={handleSearch}>
+          <button type='submit' className='search-submit' aria-label='Search'>
+            <CiSearch />
+          </button>
+          <input
+            type='text'
+            placeholder='What you looking for'
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />
+        </form>
 
       {showCart ?
       <Link href='/cart'>
