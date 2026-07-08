@@ -44,8 +44,8 @@ const Home = ({products}) => {
         >
           <div className='products-container'>
             {products?.map(product => (
-              <SwiperSlide>
-                <Product key={product._id} product={product} />
+              <SwiperSlide key={product._id}>
+                <Product product={product} />
               </SwiperSlide>
             ))}
           </div>

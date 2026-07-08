@@ -13,7 +13,7 @@ const kids = ({AllKidsProducts}) => {
 }
 
 export const getServerSideProps = async () => {
-    const query = '*[category == "Kids"]';
+    const query = '*[_type == "product" && category == "Kids"]';
     const AllKidsProducts = await client.fetch(query);
 
     return {

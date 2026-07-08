@@ -9,11 +9,11 @@ const ProductDetails = ({products, product}) => {
     const [index, setIndex] = useState(0);
     const {decQty, incQty, qty, onAdd} = useStateContext();
 
-    const careList = [];
-
-    {for (let i = 0; i < care.length; i++) {
-        careList.push(care[i].children[0].text)
-    }}
+    // Guard against products that have no `care` block yet so the page
+    // renders instead of throwing on `care.length`.
+    const careList = (care || [])
+        .map((entry) => entry?.children?.[0]?.text)
+        .filter(Boolean);
 
     return (
         <div className='products'>
@@ -51,7 +51,7 @@ const ProductDetails = ({products, product}) => {
                         <h4>Quantity: </h4>
                         <div>
                             <span className='minus' onClick={decQty}><AiOutlineMinus /></span>
-                            <span className='num' onClick=''>{qty}</span>
+                            <span className='num'>{qty}</span>
                             <span className='plus' onClick={incQty}><AiOutlinePlus /></span>
                         </div>
                     </div>
@@ -71,7 +71,7 @@ const ProductDetails = ({products, product}) => {
                 </div>
                 <div className='desc-details'>
                     <h4>PRODUCT DETAILS</h4>
-                    <p>{details[0].children[0].text}</p>  
+                    <p>{details?.[0]?.children?.[0]?.text}</p>
                 </div>
                 <div className='desc-care'>
                     <h4>PRODUCT CARE</h4>
