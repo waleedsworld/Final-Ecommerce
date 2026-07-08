@@ -6,7 +6,19 @@ const Layout = ({children}) => {
   return (
     <div className='layout'>
         <Head>
-            <title>Dine Market</title>
+            <title>Dine Market — Wardrobe Staples, Reimagined</title>
+            <meta
+                name='description'
+                content='Dine Market is a modern clothing store for Female, Male, and Kids — premium everyday staples with secure Stripe checkout.'
+            />
+            <meta name='theme-color' content='#0D0D0D' />
+            <meta property='og:title' content='Dine Market' />
+            <meta
+                property='og:description'
+                content='Premium everyday clothing for the whole family. New season, up to 40% off.'
+            />
+            <meta property='og:type' content='website' />
+            <link rel='icon' href='/favicon.ico' />
         </Head>
         <header>
             <Navbar />
