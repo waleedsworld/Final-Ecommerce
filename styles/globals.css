@@ -154,14 +154,17 @@ nav input {
 .header-content span {
   background-color: var(--primaryColor1);
   height: 40px;
-  width: 120px;
+  width: fit-content;
+  padding: 0 16px;
   border-radius: 6px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--primaryColor2);
   font-weight: 600;
-  font-size: .7rem;
+  font-size: .75rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
   text-align: center;
 }
 .header-content h1 {
@@ -179,9 +182,11 @@ nav input {
   width: 70%;
 }
 .header-content .btn {
-  padding: 1rem;
+  padding: 1rem 2rem;
   font-size: 1rem;
-  width: 35%;
+  width: fit-content;
+  white-space: nowrap;
+  border-radius: 6px;
 }
 .header-featured {
   display: grid;
