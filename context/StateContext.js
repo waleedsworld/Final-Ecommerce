@@ -3,6 +3,9 @@ import { toast } from 'react-hot-toast';
 
 const Context = createContext();
 
+// localStorage key used to persist the shopping bag between visits.
+const CART_STORAGE_KEY = 'dine-market-cart';
+
 export const StateContext = ({ children }) => {
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -12,6 +15,43 @@ export const StateContext = ({ children }) => {
 
   let foundProduct;
   let index;
+
+  // Rehydrate the cart from localStorage once, on the client only.
+  // getServerSideProps runs on the server where `window` is undefined, so we
+  // guard the read and only run it after the component has mounted.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const stored = window.localStorage.getItem(CART_STORAGE_KEY);
+      if (!stored) return;
+
+      const parsed = JSON.parse(stored);
+      if (parsed && Array.isArray(parsed.cartItems)) {
+        setCartItems(parsed.cartItems);
+        setTotalPrice(parsed.totalPrice || 0);
+        setTotalQty(parsed.totalQty || 0);
+      }
+    } catch (error) {
+      // Corrupted/oversized payload — start with an empty bag instead of crashing.
+      console.warn('Could not restore saved cart:', error);
+    }
+  }, []);
+
+  // Persist the cart whenever its contents or totals change so a page reload
+  // (or coming back tomorrow) keeps the shopper's bag intact.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      window.localStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify({ cartItems, totalPrice, totalQty })
+      );
+    } catch (error) {
+      console.warn('Could not save cart:', error);
+    }
+  }, [cartItems, totalPrice, totalQty]);
 
   const onAdd = (product, quantity) => {
     const checkProductInCart = cartItems.find((item) => item._id === product._id);
