@@ -21,15 +21,16 @@ const ProductDetails = ({products, product}) => {
                 <div className='product-images'>
                     <div className='small-images-container'>
                         {image?.map((item, ind) => (
-                            <img 
+                            <img
                             key={ind}
-                            src={urlFor(item)} 
-                            className='small-image' 
+                            src={urlFor(item)}
+                            className='small-image'
+                            alt={`${name} thumbnail ${ind + 1}`}
                             onMouseEnter={() => setIndex(ind)} />
                         ))}
                     </div>
                     <div className='big-image-container'>
-                        <img src={urlFor(image && image[index])} />
+                        <img src={urlFor(image && image[index])} alt={name} />
                     </div>
                 </div>
                 <div className='product-details'>
@@ -50,9 +51,9 @@ const ProductDetails = ({products, product}) => {
                     <div className='quantity-desc'>
                         <h4>Quantity: </h4>
                         <div>
-                            <span className='minus' onClick={decQty}><AiOutlineMinus /></span>
-                            <span className='num'>{qty}</span>
-                            <span className='plus' onClick={incQty}><AiOutlinePlus /></span>
+                            <button type='button' className='minus' aria-label='Decrease quantity' onClick={decQty}><AiOutlineMinus /></button>
+                            <span className='num' aria-live='polite'>{qty}</span>
+                            <button type='button' className='plus' aria-label='Increase quantity' onClick={incQty}><AiOutlinePlus /></button>
                         </div>
                     </div>
                     <div className='add-to-cart'>

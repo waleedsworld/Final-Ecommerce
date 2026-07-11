@@ -6,9 +6,12 @@
   margin: 0;
 }
 :root{
-    --primaryColor:#03002E;
-    --primaryColor1:#060061;
-    --primaryColor2:white;
+    /* Defaults are kept in sync with lib/config `design` so the server-rendered
+       colours match what _app.js applies on the client — this prevents a
+       first-paint theme flash (FOUC) on load. */
+    --primaryColor:#ffffff;   /* page background */
+    --primaryColor1:#E4A11B;  /* warm amber accent */
+    --primaryColor2:#1A1A1A;  /* near-black text / surfaces */
 }
 
 html,
@@ -22,6 +25,28 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+/* Visible keyboard-focus indicator for accessibility (WCAG 2.4.7).
+   Only shows for keyboard users, not on mouse click. */
+:focus-visible {
+  outline: 3px solid var(--primaryColor1);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .cart:hover, .cart-small-screen:hover,
+  .product-card:hover {
+    transform: none;
+  }
 }
 nav li, footer li, .size li, button, .cart, .navbar-smallscreen_links {
   list-style: none;
@@ -38,6 +63,13 @@ nav li, footer li, .size li, button, .cart, .navbar-smallscreen_links {
   justify-content: center;
   gap: 0.5rem;
   color: var(--primaryColor1);
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 .subtitle {
   text-align: center;
@@ -52,7 +84,7 @@ nav li, footer li, .size li, button, .cart, .navbar-smallscreen_links {
   line-height: 15px;
   text-align: center;
   letter-spacing: 0.1em;
-  color: #00FFFF;
+  color: var(--primaryColor2);
 }
 .subtitle h2 {
   font-weight: 700;
@@ -142,7 +174,7 @@ nav input {
   right: 5px;
   font-size: 12px;
   color:  var(--primaryColor1);
-  background-color: var(--primaryColo2);
+  background-color: var(--primaryColor2);
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -294,12 +326,15 @@ nav input {
   font-size: 17px;
   line-height: 21px;
   letter-spacing: 0.25em;
-  color: var(--primaryColor1);
+  color: var(--primaryColor2);
   border: none;
-  background: var(--primaryColor2);
+  /* Sits on the near-black card, so use the amber accent as the fill
+     for a visible, high-contrast promo code chip. */
+  background: var(--primaryColor1);
   padding: 0.5rem 2.5rem;
   margin-top: 5px;
   border-radius: 8px;
+  cursor: pointer;
 }
 .event-banner-right {
   flex: 1;
@@ -345,7 +380,7 @@ nav input {
   content: "";
   width: 100%;
   height: 1px;
-  background: #00FFFF;
+  background: var(--primaryColor2);
   position: absolute;
   bottom: 10px;
   left: 0;
@@ -509,12 +544,22 @@ nav input {
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  border: 1px solid var(--primaryColor2);
   cursor: pointer;
   font-size: 1rem;
   color: var(--primaryColor2);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
-.size li:hover {
-  box-shadow: var(--primaryColor2) 0px 7px 29px 0px;
+.size li:hover,
+.size li:focus-visible {
+  background-color: var(--primaryColor2);
+  color: var(--primaryColor);
+}
+.num {
+  cursor: default;
+  min-width: 1.5rem;
+  display: inline-block;
+  text-align: center;
 }
 .quantity-desc {
   display: flex;
@@ -524,15 +569,22 @@ nav input {
   border-radius: 50%;
   padding: 5px 8px;
   cursor: pointer;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primaryColor2);
 }
 .minus {
   margin-right: 10px;
   border: 2px solid var(--primaryColor2);
   background-color: var(--primaryColor2);
+  color: var(--primaryColor);
 }
 .plus {
   margin-left: 10px;
   border: 2px solid var(--primaryColor2);
+  background-color: transparent;
 }
 .add-to-cart {
   display: flex;
@@ -570,7 +622,7 @@ nav input {
   font-size: 1.4rem;
   line-height: 25px;
   letter-spacing: 0.05em;
-  color: var(--primaryColor2);
+  color: var(--primaryColor);
   padding-bottom: 3rem;
   z-index: 2;
   top: 45%;
@@ -596,7 +648,7 @@ nav input {
   font-size: 1rem;
   line-height: 19px;
   letter-spacing: 0.05em;
-  color: var(--primaryColor2);
+  color: var(--primaryColor);
 }
 .product-desc-container p, .product-desc-container li {
   font-weight: 300;
@@ -604,7 +656,7 @@ nav input {
   line-height: 26px;
   text-align: justify;
   letter-spacing: 0.05em;
-  color: var(--primaryColor2);
+  color: var(--primaryColor);
 }
 .product-desc-container p, .product-desc-container ul {
   flex: 2;
@@ -644,6 +696,41 @@ nav input {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
+  color: var(--primaryColor2);
+}
+.empty-cart .btn {
+  margin-top: 1rem;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+}
+
+/*---------------- EMPTY / LOADING STATE (category listings) --------------*/
+.empty-listing {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.75rem;
+  min-height: 40vh;
+  color: var(--primaryColor2);
+}
+.empty-listing h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--primaryColor2);
+}
+.empty-listing p {
+  font-weight: 400;
+  color: var(--primaryColor2);
+  opacity: 0.75;
+}
+.empty-listing .btn {
+  margin-top: 0.5rem;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
 }
 .cart-items {
   display: flex;
@@ -659,6 +746,11 @@ nav input {
 .remove-item {
   background: transparent;
   border: none;
+  cursor: pointer;
+  color: var(--primaryColor2);
+}
+.remove-item:hover {
+  opacity: 0.7;
 }
 .item-card {
   display: flex;
@@ -697,7 +789,10 @@ nav input {
   color: var(--primaryColor2);
 }
 .delivery-days {
-  color: #00FFFF;
+  color: var(--primaryColor2);
+  text-decoration: underline;
+  text-decoration-color: var(--primaryColor1);
+  text-underline-offset: 4px;
 }
 .price-and-qty {
   display: flex;
@@ -722,7 +817,7 @@ nav input {
   display: flex;
   justify-content: end;
   padding: 0 8rem 2rem;
-  background: linear-gradient(180deg var(--primaryColor2) 50%);
+  background: linear-gradient(180deg, transparent 50%, var(--primaryColor2) 50%);
 }
 .features-section .title h1 {
   font-weight: 700;
@@ -838,6 +933,14 @@ nav input {
   padding: 10px 120px 10px 20px;
   background: var(--primaryColor1);
   border: 1px solid var(--primaryColor2);
+  color: var(--primaryColor2);
+}
+.newsletter input::placeholder {
+  color: var(--primaryColor2);
+  opacity: 0.7;
+}
+.newsletter button {
+  cursor: pointer;
 }
 .newsletter button {
   padding: 10px 20px;
@@ -910,8 +1013,9 @@ footer p, footer li {
 
 /*------------------ SUCCESS PAYMENT PAGE ----------------*/
 .success {
-  padding: 6rem 0;
+  padding: 6rem 2rem;
   background-color: var(--primaryColor2);
+  color: var(--primaryColor);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -920,29 +1024,47 @@ footer p, footer li {
   border-radius: 15px;
 }
 .success .icon {
-  color: FFFF00;
+  color: var(--primaryColor1);
 }
 .success h1 {
   font-size: 2.75rem;
   margin: 0.5rem 0;
+  color: var(--primaryColor);
+}
+.success p {
+  color: var(--primaryColor);
 }
 .success .btn {
   padding: 15px;
-  width: 400px;
+  max-width: 400px;
+  width: 100%;
   font-size: 1.125rem;
   border-radius: 10px;
+  cursor: pointer;
+  /* The card background is near-black, so give the CTA an amber fill
+     instead of the default near-black .btn surface for real contrast. */
+  background-color: var(--primaryColor1);
+  color: var(--primaryColor2);
 }
 .success .description, .success button  {
   margin-top: 2rem;
 }
 .success .description a {
   margin-left: 5px;
-  color: 00FFFF;
+  color: var(--primaryColor1);
+  text-decoration: underline;
 }
 
 /*-----------------NAVBAR SMALL SCREEN-------------*/
 .navbar-smallscreen {
   display: none;
+}
+.menu-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
 }
 .navbar-smallscreen_overlay {
   position: fixed;
@@ -950,7 +1072,8 @@ footer p, footer li {
   left: 0;
   width: 100%;
   height: 100vh;
-  background: black;
+  background: var(--primaryColor2);
+  color: var(--primaryColor);
   transition: all .5s ease-in-out;
   display: flex;
   flex-direction: column;
@@ -958,11 +1081,20 @@ footer p, footer li {
   align-items: center;
   z-index: 3;
 }
-.navbar-smallscreen_overlay .logo-small, 
+.navbar-smallscreen_overlay .logo-small,
 .navbar-smallscreen_overlay .close_icon {
   font-size: 2.5rem;
   cursor: pointer;
   position: absolute;
+}
+.navbar-smallscreen_overlay .close_icon {
+  background: transparent;
+  border: none;
+  color: var(--primaryColor);
+  display: inline-flex;
+}
+.navbar-smallscreen_links li {
+  color: var(--primaryColor);
 }
 .navbar-smallscreen_overlay .logo-small {
   left: 50px;

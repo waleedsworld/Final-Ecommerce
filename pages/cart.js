@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import Link from 'next/link';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineShopping } from 'react-icons/ai';
 import {HiOutlineTrash} from 'react-icons/hi'
 import toast from 'react-hot-toast';
@@ -37,33 +38,41 @@ const Cart = () => {
         <div className='cart-items'>
           {cartItems.length < 1 && (
             <div className='empty-cart'>
-              <AiOutlineShopping size={150} />
+              <AiOutlineShopping size={150} aria-hidden='true' />
               <h1>Your shopping bag is empty</h1>
+              <Link href='/products'>
+                <button type='button' className='btn'>Continue Shopping</button>
+              </Link>
             </div>
           )}
 
           {cartItems.length >= 1 && cartItems.map((item) => (
             <div key={item._id} className='item-card'>
               <div className='item-image'>
-                <img src={urlFor(item?.image[0])} alt='img' />
+                <img src={urlFor(item?.image[0])} alt={item.name} />
               </div>
               <div className='item-details'>
                 <div className='name-and-remove'>
-                  <h3>{item.name}</h3>  
-                  <button type='buttin' onClick={() => onRemove(item)} className='remove-item'>
-                  <HiOutlineTrash size={28} />  
+                  <h3>{item.name}</h3>
+                  <button
+                    type='button'
+                    onClick={() => onRemove(item)}
+                    className='remove-item'
+                    aria-label={`Remove ${item.name} from cart`}
+                  >
+                  <HiOutlineTrash size={28} />
                   </button>
                 </div>
                 <p className='item-tag'>Dress</p>
                 <p className='delivery-est'>Delivery Estimation</p>
                 <p className='delivery-days'>5 Working Days</p>
                 <div className='price-and-qty'>
-                  <span className='price'>${item.price * item.quantity}</span>  
+                  <span className='price'>${item.price * item.quantity}</span>
                   <div>
-                    <span className='minus' onClick={() => toggleCartItemQuantity(item._id, 'dec')}><AiOutlineMinus /></span>
-                    <span className='num' onClick=''>{item.quantity}</span>
-                    <span className='plus' onClick={() => toggleCartItemQuantity(item._id, 'inc')}><AiOutlinePlus /></span>
-                  </div>   
+                    <button type='button' className='minus' aria-label={`Decrease quantity of ${item.name}`} onClick={() => toggleCartItemQuantity(item._id, 'dec')}><AiOutlineMinus /></button>
+                    <span className='num' aria-live='polite'>{item.quantity}</span>
+                    <button type='button' className='plus' aria-label={`Increase quantity of ${item.name}`} onClick={() => toggleCartItemQuantity(item._id, 'inc')}><AiOutlinePlus /></button>
+                  </div>
                 </div>
               </div>
             </div>

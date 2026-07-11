@@ -13,7 +13,7 @@ const Newsletter = () => {
       <h1>Subscribe Our Newsletter</h1>
       <p>Get the latest information and promo offers directly</p>
       <form onSubmit={handleSubmit}>
-        <input type='email' placeholder='Input email address'></input>
+        <input type='email' required aria-label='Email address' placeholder='Enter your email address'></input>
         <button type='submit'>Get Started</button>
       </form>
     </section>
