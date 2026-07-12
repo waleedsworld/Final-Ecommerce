@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import {client} from '../lib/client'
-import { AllProducts } from '../components'
+import { AllProducts, Seo } from '../components'
 
 const products = ({Allproducts}) => {
     if (!Allproducts || Allproducts.length === 0) {
@@ -17,7 +17,12 @@ const products = ({Allproducts}) => {
     }
     return (
         <div className='Allproducts-container'>
-            {Allproducts.map(prod => (
+            <Seo
+                title='All Products'
+                description='Browse the full Dine Market catalogue — premium everyday clothing for Female, Male, and Kids with secure Stripe checkout.'
+                path='/products'
+            />
+            {Allproducts?.map(prod => (
                 <AllProducts key={prod._id} allproducts={prod} />
             ))}
         </div>

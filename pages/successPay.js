@@ -4,6 +4,7 @@ import { BsBagCheckFill } from 'react-icons/bs';
 
 import { useStateContext } from '../context/StateContext';
 import { runConfetti } from '../lib/utils';
+import { Seo } from '../components';
 
 const successPay = () => {
     const { setCartItems, setTotalPrice, setTotalQty } = useStateContext();
@@ -18,6 +19,7 @@ const successPay = () => {
 
     return (
         <div className='success'>
+            <Seo title='Order Confirmed' description='Thank you for your Dine Market order.' noindex />
             <p className='icon' aria-hidden='true'>
                 <BsBagCheckFill size={80} />
             </p>

@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import {client} from '../lib/client'
-import { AllProducts } from '../components'
+import { AllProducts, Seo } from '../components'
 
 const male = ({AllMaleProducts}) => {
     if (!AllMaleProducts || AllMaleProducts.length === 0) {
@@ -17,7 +17,12 @@ const male = ({AllMaleProducts}) => {
     }
     return (
         <div className='Allproducts-container'>
-            {AllMaleProducts.map(prod => (
+            <Seo
+                title='Male Clothing'
+                description="Shop Dine Market's men's collection — premium everyday staples from XS to XL with secure Stripe checkout."
+                path='/male'
+            />
+            {AllMaleProducts?.map(prod => (
                 <AllProducts key={prod._id} allproducts={prod} />
             ))}
         </div>
