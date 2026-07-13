@@ -121,6 +121,34 @@ npm run lint    # run next lint
 
 ---
 
+## 🧪 A/B testing
+
+A tiny, dependency-free experimentation harness lives in `lib/abTesting.js`
+with React bindings in `context/ExperimentContext.js`.
+
+- **Sticky assignment** — each visitor gets a persistent id and is bucketed
+  into a variant deterministically (FNV-1a hash), so a returning visitor always
+  sees the same variant. Weights per variant are supported.
+- **SSR-safe** — variants resolve after mount, so server and client markup
+  match (no hydration warnings). All storage access is guarded.
+- **Pluggable events** — `trackEvent` forwards to `window.dataLayer` (GTM) and
+  an optional `window.__ab_track` hook, and buffers recent events on
+  `window.__ab_events` for debugging.
+
+Define experiments in the `experiments` map, then read one with the hook:
+
+```jsx
+import { useExperiment } from '../context/ExperimentContext';
+
+const { isVariant, track } = useExperiment('hero_cta');
+const label = isVariant('shop_the_sale') ? 'Shop the Sale' : 'Start Shopping';
+// call track('hero_cta_click') on conversion
+```
+
+The home page hero CTA (`components/HeroBanner.jsx`) ships as a working example.
+
+---
+
 ## 📝 Notes
 
 The "Dine Market" name and layout are based on a free community e-commerce UI design; the implementation here is an independent build. Swap the copy and colours in `lib/config.js` to make it your own.

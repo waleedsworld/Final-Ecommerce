@@ -9,12 +9,22 @@ import featured2 from '../src/assets/featured/Featured2.png';
 import featured3 from '../src/assets/featured/Featured3.png';
 import featured4 from '../src/assets/featured/Featured4.png';
 import Link from 'next/link';
+import { useExperiment } from '../context/ExperimentContext';
 
 
 const heroLabels = config.heroItems.map(item => item.label);
 
+// Copy shown for each variant of the `hero_cta` experiment.
+const CTA_COPY = {
+  start_shopping: 'Start Shopping',
+  shop_the_sale: 'Shop the Sale',
+};
+
 
 const HeroBanner = () => {
+  const { variant, track } = useExperiment('hero_cta');
+  const ctaLabel = CTA_COPY[variant] || CTA_COPY.start_shopping;
+
   return (
     <header className='header'>
         <div className='header-left-side'>
@@ -23,7 +33,7 @@ const HeroBanner = () => {
                  <h1>{heroLabels[1]}</h1>
                  <p>{heroLabels[2]}</p>
                 <Link href='/products'>
-                     <button className='btn' type='button'><CgShoppingCart size={26} />  Start Shopping</button>
+                     <button className='btn' type='button' onClick={() => track('hero_cta_click')}><CgShoppingCart size={26} />  {ctaLabel}</button>
                 </Link>
             </div>
 

@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import '../styles/globals.css';
 import { Layout } from '../components';
 import { StateContext } from '../context/StateContext';
+import { ExperimentProvider } from '../context/ExperimentContext';
 import config from '../lib/config';
 const design = config.design.map(item => item.label);
 const color1 = design[0]
@@ -22,11 +23,13 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   return (
-    <StateContext>
-      <Layout>
-        <Toaster />
-        <Component {...pageProps} />
-      </Layout>
-    </StateContext>
+    <ExperimentProvider>
+      <StateContext>
+        <Layout>
+          <Toaster />
+          <Component {...pageProps} />
+        </Layout>
+      </StateContext>
+    </ExperimentProvider>
   );
 }
