@@ -13,13 +13,13 @@ Category shopping, dynamic product pages, a live cart, and a genuine Stripe Chec
 [![Node](https://img.shields.io/badge/Node-18%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-![Dine Market demo](assets/demo.gif)
-
-<sub>Drop a walkthrough clip at <code>assets/demo.gif</code> to replace this placeholder.</sub>
+![Dine Market storefront tour — home, catalogue, and product detail](assets/demo.gif)
 
 </div>
 
 > **Wardrobe staples, reimagined.** New season, up to 40% off. Browse by Female, Male, and Kids, drop your favourites in the cart, and pay through a real payment flow. 😉
+
+_A quick tour of the running storefront: the hero, the live product catalogue, and a product detail page. See [`assets/`](assets/) for the full-resolution stills._
 
 ![Dine Market home page](docs/media/home-desktop.png)
 
