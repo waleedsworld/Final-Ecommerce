@@ -91,8 +91,8 @@ const ProductDetails = ({products, product}) => {
                 <div className='desc-care'>
                     <h4>PRODUCT CARE</h4>
                     <ul>
-                    {careList.map(list => (
-                        <li>{list}</li>
+                    {careList.map((list, careIndex) => (
+                        <li key={careIndex}>{list}</li>
                     ))}
                     </ul>
                 </div>
